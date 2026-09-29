@@ -3,7 +3,7 @@ import { decodeScanFromUrl } from '@/lib/cache';
 
 export const runtime = 'edge';
 
-const SITE_URL = 'https://gitcheck-umber.vercel.app';
+const SITE_URL = 'https://gitcheck-two.vercel.app';
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
@@ -26,17 +26,17 @@ export async function GET(req: NextRequest) {
   let text: string;
 
   if (issueCount === 0) {
-    text = `${repo} scored ${score}% on VibeCheck (grade ${grade}) — clean project.`;
+    text = `${repo} scored ${score}% on gitCheck (grade ${grade}) — clean project.`;
   } else if (score >= 70) {
-    text = `${repo} scored ${score}% on VibeCheck (grade ${grade}). ${issueCount} ${issueWord} — this is a prototype, not a product.`;
+    text = `${repo} scored ${score}% on gitCheck (grade ${grade}). ${issueCount} ${issueWord} — this is a prototype, not a product.`;
   } else if (score >= 50) {
-    text = `${repo} scored ${score}% on VibeCheck (grade ${grade}). ${issueCount} ${issueWord} worth fixing before launch.`;
+    text = `${repo} scored ${score}% on gitCheck (grade ${grade}). ${issueCount} ${issueWord} worth fixing before launch.`;
   } else if (score >= 30) {
-    text = `${repo} scored ${score}% on VibeCheck (grade ${grade}). ${issueCount} ${issueWord} left. Getting close.`;
+    text = `${repo} scored ${score}% on gitCheck (grade ${grade}). ${issueCount} ${issueWord} left. Getting close.`;
   } else if (score >= 15) {
-    text = `${repo} scored ${score}% on VibeCheck (grade ${grade}) — looking solid. ${issueCount} minor ${issueWord}.`;
+    text = `${repo} scored ${score}% on gitCheck (grade ${grade}) — looking solid. ${issueCount} minor ${issueWord}.`;
   } else {
-    text = `${repo} scored ${score}% on VibeCheck (grade ${grade}) — looks professional.`;
+    text = `${repo} scored ${score}% on gitCheck (grade ${grade}) — looks professional.`;
   }
 
   const shareUrl = `${SITE_URL}/?repo=${encodeURIComponent(

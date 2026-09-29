@@ -6,7 +6,7 @@ import { GithubIcon } from './Icons';
 export function Header() {
   function handleLogoClick() {
     if (typeof window !== 'undefined') {
-      window.dispatchEvent(new Event('vibecheck:reset'));
+      window.dispatchEvent(new Event('gitcheck:reset'));
     }
   }
 
@@ -20,14 +20,14 @@ export function Header() {
         >
           <Image
             src="/icon.png"
-            alt="VibeCheck"
+            alt="gitCheck"
             width={36}
             height={36}
             className="rounded-md"
             priority
           />
           <span className="flex items-baseline gap-1">
-            <span className="font-display">Vibe</span>
+            <span className="font-display">git</span>
             <span className="font-display italic text-accent">Check</span>
           </span>
         </Link>

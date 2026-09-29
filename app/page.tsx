@@ -49,8 +49,8 @@ useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
-  window.addEventListener('vibecheck:reset', handleReset);
-  return () => window.removeEventListener('vibecheck:reset', handleReset);
+  window.addEventListener('gitcheck:reset', handleReset);
+  return () => window.removeEventListener('gitcheck:reset', handleReset);
 }, []);
 
   const grouped = useMemo(() => {
@@ -97,7 +97,7 @@ useEffect(() => {
       seo: 'SEO & Meta',
       errors: 'Errors & Edge States',
       hygiene: 'Code Hygiene',
-      signatures: 'Vibecoded Signatures',
+      signatures: 'vibecoded Signatures',
       quality: 'Code Quality',
       analytics: 'Analytics',
     };
@@ -108,7 +108,7 @@ useEffect(() => {
     lines.push(`# Code Quality Fix Request`);
     lines.push('');
     lines.push(
-      `I ran my GitHub repo through **VibeCheck**, a static analysis tool that finds the small things that make an app look like a prototype instead of a finished product. Below is the full report.`
+      `I ran my GitHub repo through **gitCheck**, a static analysis tool that finds the small things that make an app look like a prototype instead of a finished product. Below is the full report.`
     );
     lines.push('');
     lines.push('---');
@@ -125,7 +125,7 @@ useEffect(() => {
       );
     }
     lines.push(
-      `- **Vibecoded score:** ${result.score}% (grade ${result.grade}) — lower is better`
+      `- **vibecoded score:** ${result.score}% (grade ${result.grade}) — lower is better`
     );
     lines.push(
       `- **Issues found:** ${result.issues.length} (${result.issues.filter((i: any) => i.severity === 'critical').length} critical, ${result.issues.filter((i: any) => i.severity === 'high').length} high)`
@@ -153,7 +153,7 @@ useEffect(() => {
       `2. **Don't rewrite what isn't broken.** Keep my existing design system, tech stack, file structure, and code style. The fix for each issue should be additive and surgical, not a refactor.`
     );
     lines.push(
-      `3. **If an issue doesn't apply, say so and skip it.** VibeCheck is a static analyzer — it makes mistakes. If you see something flagged that's actually fine (or the fix would break something), tell me why before skipping it.`
+      `3. **If an issue doesn't apply, say so and skip it.** gitCheck is a static analyzer — it makes mistakes. If you see something flagged that's actually fine (or the fix would break something), tell me why before skipping it.`
     );
     lines.push(
       `4. **Group related fixes into the same change.** If three issues are all about the same component, one change-set for all three, not three separate edits.`
@@ -224,7 +224,7 @@ useEffect(() => {
     if (result.passed.length > 0) {
       lines.push('---');
       lines.push('');
-      lines.push('## What VibeCheck already approved');
+      lines.push('## What gitCheck already approved');
       lines.push('');
       lines.push(
         `These checks passed. No action needed — but don't accidentally break them while fixing the rest.`

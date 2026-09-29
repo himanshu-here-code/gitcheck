@@ -105,7 +105,7 @@ export function ScanInput({ onScan, loading }: Props) {
           </button>
 
           <a
-            href="https://github.com/settings/tokens/new?description=vibecheck&scopes=repo"
+            href="https://github.com/settings/tokens/new?description=gitcheck&scopes=repo"
             target="_blank"
             rel="noopener noreferrer"
             title="Opens GitHub with the token name and scope pre-filled"

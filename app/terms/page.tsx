@@ -3,8 +3,8 @@ import { Footer } from '@/components/Footer';
 import Link from 'next/link';
 
 export const metadata = {
-  title: 'Terms of Service — VibeCheck',
-  description: 'The rules for using VibeCheck. Short version: be cool.',
+  title: 'Terms of Service — gitCheck',
+  description: 'The rules for using gitCheck. Short version: be cool.',
 };
 
 export default function TermsPage() {
@@ -17,7 +17,7 @@ export default function TermsPage() {
           href="/"
           className="mb-8 inline-flex items-center gap-1.5 text-sm font-semibold text-muted transition-opacity hover:opacity-60"
         >
-          ← Back to VibeCheck
+          ← Back to gitCheck
         </Link>
 
         <h1 className="headline text-5xl sm:text-6xl">Terms of Service</h1>
@@ -28,14 +28,14 @@ export default function TermsPage() {
 
         <div className="mt-12 space-y-10 text-[16px] leading-relaxed">
           <p className="text-lg">
-            VibeCheck is a free tool that reads public GitHub repositories and
+            gitCheck is a free tool that reads public GitHub repositories and
             tells you what might make them look unfinished. These are the rules.
             They&apos;re short. There are no surprises hidden in section 14(b).
           </p>
 
-          <Section title="1. What VibeCheck is">
+          <Section title="1. What gitCheck is">
             <p>
-              VibeCheck performs <strong>static analysis</strong> on public
+              gitCheck performs <strong>static analysis</strong> on public
               GitHub repositories. It fetches file listings, downloads a
               subset of source files, and runs pattern-matching checks. No
               code is executed. No app is deployed. No AI runs on your code.
@@ -48,8 +48,8 @@ export default function TermsPage() {
             </p>
           </Section>
 
-          <Section title="2. Using VibeCheck">
-            <p>You&apos;re free to use VibeCheck for anything legal. That said:</p>
+          <Section title="2. Using gitCheck">
+            <p>You&apos;re free to use gitCheck for anything legal. That said:</p>
             <ul className="ml-5 mt-4 list-disc space-y-2 text-muted">
               <li>Don&apos;t hammer the API with automated scripts.</li>
               <li>Don&apos;t try to bypass rate limits.</li>
@@ -79,7 +79,7 @@ export default function TermsPage() {
 
           <Section title="4. No warranty">
             <p>
-              VibeCheck is provided <strong>&ldquo;as is&rdquo;</strong> and{' '}
+              gitCheck is provided <strong>&ldquo;as is&rdquo;</strong> and{' '}
               <strong>&ldquo;as available.&rdquo;</strong> I make no promises
               that it will always work, that the results will be accurate, or
               that it will catch every issue in your app.
@@ -94,7 +94,7 @@ export default function TermsPage() {
           <Section title="5. No liability">
             <p>
               If you ship an app, deploy something, make a business decision,
-              or otherwise do anything based on a VibeCheck report — that&apos;s
+              or otherwise do anything based on a gitCheck report — that&apos;s
               on you. I&apos;m not responsible for any damages, losses, missed
               launches, angry investors, or anything else that happens.
             </p>
@@ -107,20 +107,20 @@ export default function TermsPage() {
 
           <Section title="6. Third-party services">
             <p>
-              VibeCheck relies on the GitHub API to fetch repositories. If
+              gitCheck relies on the GitHub API to fetch repositories. If
               GitHub is down, changes its API, rate-limits us, or blocks us,
-              VibeCheck stops working. Nothing I can do about that.
+              gitCheck stops working. Nothing I can do about that.
             </p>
             <p>
               Your use of any repository is still governed by that
-              repository&apos;s own license and GitHub&apos;s terms. VibeCheck
+              repository&apos;s own license and GitHub&apos;s terms. gitCheck
               doesn&apos;t grant you any rights to code you don&apos;t own.
             </p>
           </Section>
 
           <Section title="7. Availability and changes">
             <p>
-              VibeCheck might go down. It might change. Features might be added
+              gitCheck might go down. It might change. Features might be added
               or removed. The scoring rubric could shift as I improve the
               checks. A repo that scored 30% today could score 45% tomorrow
               because I added new detections.
@@ -134,7 +134,7 @@ export default function TermsPage() {
 
           <Section title="8. Termination">
             <p>
-              I can block access to VibeCheck if someone is abusing the service,
+              I can block access to gitCheck if someone is abusing the service,
               attacking the infrastructure, or being a genuine problem. This is
               rare, and it&apos;s mostly about protecting the free tier for
               everyone else.
@@ -170,7 +170,7 @@ export default function TermsPage() {
             style={{ borderColor: '#0a0a0a', background: '#fef9ec' }}
           >
             <p className="text-sm font-semibold">
-              TL;DR — VibeCheck is free, provided as-is, and you can use the
+              TL;DR — gitCheck is free, provided as-is, and you can use the
               reports however you want. Be nice, don&apos;t abuse it, don&apos;t
               sue over a missing 404 page.
             </p>

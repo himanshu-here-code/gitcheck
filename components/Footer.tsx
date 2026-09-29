@@ -8,7 +8,7 @@ export function Footer() {
     >
       <div className="container flex flex-col items-center justify-between gap-4 py-8 sm:flex-row">
         <div className="text-sm font-semibold text-muted">
-          © {new Date().getFullYear()} VibeCheck — built by{' '}
+          © {new Date().getFullYear()} gitCheck — built by{' '}
           <a
             href="https://github.com/himanshu-here-code"
             target="_blank"

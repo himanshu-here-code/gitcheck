@@ -7,7 +7,7 @@ const META: Record<string, { title: string; emoji: string; bg: string }> = {
   seo:        { title: 'SEO & Meta',           emoji: '🔍', bg: '#38bdf8' },
   errors:     { title: 'Errors & Edge States', emoji: '🐛', bg: '#fbbf24' },
   hygiene:    { title: 'Code Hygiene',         emoji: '🧼', bg: '#34d399' },
-  signatures: { title: 'Vibecoded Signs',      emoji: '✨', bg: '#8b5cf6' },
+  signatures: { title: 'vibecoded Signs',      emoji: '✨', bg: '#8b5cf6' },
   quality:    { title: 'Code Quality',         emoji: '🎯', bg: '#f472b6' },  // ← new
   analytics:  { title: 'Analytics',            emoji: '📊', bg: '#38bdf8' },
 };

@@ -1,25 +1,25 @@
-# VibeCheck
+# gitCheck
 
 **Is your app vibecoded?**
 
 Paste a GitHub repo URL. Get an honest report on what makes your app look
 like a prototype instead of a finished product.
 
-[**Try it live →**](https://gitcheck-umber.vercel.app)
+[**Try it live →**](https://gitcheck-two.vercel.app)
 
 ---
 
 ## Demo
 
-(https://github.com/himanshu-here-code/vibecheck/blob/main/public/vibecheck-demo.mp4)
+(https://github.com/himanshu-here-code/gitcheck/blob/main/public/gitcheck-demo.mp4)
 
-*(If the video doesn't play above, [watch it here](https://gitcheck-umber.vercel.app) or download it from the repo.)*
+*(If the video doesn't play above, [watch it here](https://gitcheck-two.vercel.app) or download it from the repo.)*
 
 ---
 
 ## What it does
 
-VibeCheck scans public GitHub repositories and flags the small things that
+gitCheck scans public GitHub repositories and flags the small things that
 quietly tell people your app isn't finished yet. No AI. No database. No
 storage. Just static analysis and an honest report.
 
@@ -31,7 +31,7 @@ It looks for:
 | **SEO & Meta** | Page title, description, Open Graph image, favicon, robots.txt, sitemap |
 | **Errors & Edge States** | 404 page, error boundary, loading states, empty states |
 | **Code Hygiene** | `.env.example`, `.gitignore`, committed secrets, README, TODO comments |
-| **Vibecoded Signatures** | Placeholder copy, default fonts, purple gradients, hardcoded localhost URLs, emoji-as-icons |
+| **vibecoded Signatures** | Placeholder copy, default fonts, purple gradients, hardcoded localhost URLs, emoji-as-icons |
 
 Each issue comes with a plain-English explanation and a **copy fix prompt**
 button — paste it into Cursor, Claude, or ChatGPT, and let it do the work.
@@ -43,14 +43,14 @@ issue into a structured prompt, ready for your AI of choice.
 
 ## Why
 
-I built VibeCheck because I kept seeing the same thing: people shipping AI-built
+I built gitCheck because I kept seeing the same thing: people shipping AI-built
 apps that technically work but look unfinished. Missing privacy pages.
 Placeholder text still visible. Default Vite titles. No 404 page.
 
 None of these things are hard to fix. But nobody tells you they matter until
 someone bounces off your app without signing up.
 
-VibeCheck is the tool I wish existed when I was shipping my first AI-built
+gitCheck is the tool I wish existed when I was shipping my first AI-built
 project.
 
 ---
@@ -91,8 +91,8 @@ Zero external services. Zero database. Zero AI API costs.
 
 ```bash
 # Clone
-git clone https://github.com/himanshu-here-code/vibecheck.git
-cd vibecheck
+git clone https://github.com/himanshu-here-code/gitcheck.git
+cd gitcheck
 
 # Install
 npm install
@@ -114,7 +114,7 @@ You need a token to raise the API rate limit from 60 requests/hour
 
 1. Go to https://github.com/settings/tokens
 2. Click **Generate new token (classic)**
-3. Name: `vibecheck-local`
+3. Name: `gitcheck-local`
 4. Expiration: 90 days (or whatever you prefer)
 5. **Leave every scope unchecked** — public repos only need an empty token
 6. Click **Generate token** and copy the `ghp_...` value
@@ -135,7 +135,7 @@ Never commit `.env.local`. It's already in `.gitignore`.
 ## Project structure
 
 ```
-vibecheck/
+gitcheck/
 ├── app/
 │   ├── api/scan/route.ts       # The scanner endpoint
 │   ├── privacy/page.tsx        # Privacy policy
@@ -167,10 +167,10 @@ vibecheck/
 │       ├── seo.ts              # Meta tags, favicon, OG image
 │       ├── errors.ts           # 404, error boundary, loading
 │       ├── hygiene.ts          # .env, .gitignore, README, secrets
-│       └── signatures.ts       # Vibecoded fingerprint patterns
+│       └── signatures.ts       # vibecoded fingerprint patterns
 ├── public/
 │   ├── icon.png                # Header icon
-│   └── vibecheck-demo.mp4      # Demo video
+│   └── gitcheck-demo.mp4      # Demo video
 ├── LICENSE
 ├── README.md
 └── SECURITY.md
@@ -209,7 +209,7 @@ Nothing else. Keep checks stateless.
 - [ ] OG image generation for shareable scan results
 - [ ] Shareable public scan URLs (`/scan/owner/repo`)
 - [ ] Private repo support (with OAuth)
-- [ ] CLI: `npx vibecheck owner/repo`
+- [ ] CLI: `npx gitcheck owner/repo`
 - [ ] GitHub Action: run on every PR
 
 ---
@@ -248,16 +248,16 @@ Issues and PRs welcome. A few guidelines:
 
 ## License
 
-[AGPL-3.0](LICENSE) — you're free to fork, self-host, and modify VibeCheck.
+[AGPL-3.0](LICENSE) — you're free to fork, self-host, and modify gitCheck.
 
 The one rule: if you run a modified version as a public service (a website,
 an API, a SaaS — anything other people use over a network), you must publish
 your modified source code under the same license.
 
-That keeps VibeCheck open for learning, tinkering, and contribution, while
+That keeps gitCheck open for learning, tinkering, and contribution, while
 preventing anyone from repackaging it and selling it as their own.
 
-Want to use VibeCheck commercially without the AGPL obligation? Reach out on
+Want to use gitCheck commercially without the AGPL obligation? Reach out on
 [GitHub](https://github.com/himanshu-here-code) — happy to talk about a
 commercial license.
 

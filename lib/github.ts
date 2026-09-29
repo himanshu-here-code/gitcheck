@@ -7,7 +7,7 @@ const GH = 'https://api.github.com';
 function headers(authToken?: string) {
   const h: Record<string, string> = {
     Accept: 'application/vnd.github+json',
-    'User-Agent': 'vibecheck',
+    'User-Agent': 'gitcheck',
   };
   // Prefer the user's token if provided; fall back to our env token
   const token = authToken || process.env.GITHUB_TOKEN;

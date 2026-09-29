@@ -3,7 +3,7 @@ import { decodeScanFromUrl } from '@/lib/cache';
 
 export const runtime = 'edge';
 
-const SITE_URL = 'https://gitcheck-umber.vercel.app';
+const SITE_URL = 'https://gitcheck-two.vercel.app';
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
@@ -22,9 +22,9 @@ export async function GET(req: NextRequest) {
   let title: string;
 
   if (issueCount === 0) {
-    title = `Ran ${repo} through VibeCheck — clean project, 0 issues`;
+    title = `Ran ${repo} through gitCheck — clean project, 0 issues`;
   } else if (score >= 70) {
-    title = `${repo} scored ${score}% on VibeCheck — ${issueCount} ${issueWord} to fix`;
+    title = `${repo} scored ${score}% on gitCheck — ${issueCount} ${issueWord} to fix`;
   } else if (score >= 50) {
     title = `${repo} came back at ${score}% vibecoded — ${issueCount} ${issueWord} worth a look`;
   } else if (score >= 30) {

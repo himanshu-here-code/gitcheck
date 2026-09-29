@@ -3,8 +3,8 @@ import { Footer } from '@/components/Footer';
 import Link from 'next/link';
 
 export const metadata = {
-  title: 'Privacy Policy — VibeCheck',
-  description: 'What VibeCheck does with your data. Spoiler: almost nothing.',
+  title: 'Privacy Policy — gitCheck',
+  description: 'What gitCheck does with your data. Spoiler: almost nothing.',
 };
 
 export default function PrivacyPage() {
@@ -17,7 +17,7 @@ export default function PrivacyPage() {
           href="/"
           className="mb-8 inline-flex items-center gap-1.5 text-sm font-semibold text-muted transition-opacity hover:opacity-60"
         >
-          ← Back to VibeCheck
+          ← Back to gitCheck
         </Link>
 
         <h1 className="headline text-5xl sm:text-6xl">Privacy Policy</h1>
@@ -28,7 +28,7 @@ export default function PrivacyPage() {
 
         <div className="mt-12 space-y-10 text-[16px] leading-relaxed">
           <p className="text-lg">
-            VibeCheck is a small tool built by one developer. The short
+            gitCheck is a small tool built by one developer. The short
             version: we don&apos;t want your data, we don&apos;t sell anything,
             and we don&apos;t keep anything. Here&apos;s the longer version
             so you know exactly what happens when you click Scan.
@@ -65,7 +65,7 @@ export default function PrivacyPage() {
 
           <Section title="Public repos vs. private repos">
             <p>
-              VibeCheck handles public and private repositories differently,
+              gitCheck handles public and private repositories differently,
               on purpose.
             </p>
             <p className="mt-4">
@@ -139,7 +139,7 @@ export default function PrivacyPage() {
 
           <Section title="Hosting, analytics, and what Vercel sees">
             <p>
-              VibeCheck is hosted on Vercel. Like every web host, Vercel
+              gitCheck is hosted on Vercel. Like every web host, Vercel
               processes each incoming request and may keep short-lived
               operational logs (IP address, timestamp, status code) for
               security and abuse prevention. These logs are owned and managed
@@ -216,7 +216,7 @@ export default function PrivacyPage() {
 
           <Section title="Children">
             <p>
-              VibeCheck isn&apos;t directed at children under 13. We don&apos;t
+              gitCheck isn&apos;t directed at children under 13. We don&apos;t
               knowingly collect information from anyone, so this is really
               just a formality.
             </p>
@@ -224,7 +224,7 @@ export default function PrivacyPage() {
 
           <Section title="Changes to this policy">
             <p>
-              If we ever change how VibeCheck handles data — for example, if we
+              If we ever change how gitCheck handles data — for example, if we
               add a database or a new analytics tool — we&apos;ll update this
               page and bump the date at the top. The current promise is simple:
               nothing is stored, and we intend to keep it that way.
@@ -251,7 +251,7 @@ export default function PrivacyPage() {
             style={{ borderColor: '#0a0a0a', background: '#fef9ec' }}
           >
             <p className="text-sm font-semibold">
-              One last thing — the whole point of VibeCheck is to help people
+              One last thing — the whole point of gitCheck is to help people
               ship better software. Reading this page shouldn&apos;t feel like
               a chore. If anything here was unclear, that&apos;s a bug too.
             </p>
