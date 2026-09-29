@@ -26,7 +26,7 @@ const mono = JetBrains_Mono({
   display: 'swap',
 });
 
-const SITE_URL = 'https://https://gitcheck-umber.vercel.app/';
+const SITE_URL = 'https://gitcheck-umber.vercel.app';
 const DEFAULT_TITLE = 'VibeCheck — Is your app vibecoded?';
 const DEFAULT_DESCRIPTION =
   'Scan any GitHub repo to strip out lazy AI UI and robotic copy.';

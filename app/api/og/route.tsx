@@ -498,7 +498,7 @@ export async function GET(req: NextRequest) {
                 display: 'flex',
               }}
             >
-              https://gitcheck-umber.vercel.app/
+              gitcheck-umber.vercel.app
             </div>
           </div>
         </div>
