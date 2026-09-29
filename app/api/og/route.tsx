@@ -498,7 +498,7 @@ export async function GET(req: NextRequest) {
                 display: 'flex',
               }}
             >
-              vibecheck-one-swart.vercel.app
+              https://gitcheck-umber.vercel.app/
             </div>
           </div>
         </div>

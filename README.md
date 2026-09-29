@@ -5,7 +5,7 @@
 Paste a GitHub repo URL. Get an honest report on what makes your app look
 like a prototype instead of a finished product.
 
-[**Try it live →**](https://vibecheck-one-swart.vercel.app)
+[**Try it live →**](https://https://gitcheck-umber.vercel.app/)
 
 ---
 
@@ -13,7 +13,7 @@ like a prototype instead of a finished product.
 
 (https://github.com/himanshu-here-code/vibecheck/blob/main/public/vibecheck-demo.mp4)
 
-*(If the video doesn't play above, [watch it here](https://vibecheck-one-swart.vercel.app) or download it from the repo.)*
+*(If the video doesn't play above, [watch it here](https://https://gitcheck-umber.vercel.app/) or download it from the repo.)*
 
 ---
 
