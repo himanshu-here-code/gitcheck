@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { parseRepoUrl, buildRepoContext } from '@/lib/Github';
+import { parseRepoUrl, buildRepoContext } from '@/lib/github';
 import { runAllChecks } from '@/lib/checks';
 import { cacheScan, getCachedScan } from '@/lib/cache';
 
