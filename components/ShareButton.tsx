@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 import { CheckIcon } from './Icons';
 import { encodeScanForUrl } from '@/lib/cache';
 
-const SITE_URL = 'https://GitCheck-two.vercel.app';
+const SITE_URL = 'https://gitcheck-seven.vercel.app';
 
 export function ShareButton({
   repo,

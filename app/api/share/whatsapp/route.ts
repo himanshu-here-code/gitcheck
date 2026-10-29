@@ -3,7 +3,7 @@ import { decodeScanFromUrl } from '@/lib/cache';
 
 export const runtime = 'edge';
 
-const SITE_URL = 'https://GitCheck-two.vercel.app';
+const SITE_URL = 'https://gitcheck-seven.vercel.app';
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);

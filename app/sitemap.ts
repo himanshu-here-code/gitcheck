@@ -1,7 +1,7 @@
 import { MetadataRoute } from 'next';
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const base = 'https://GitCheck-two.vercel.app';
+  const base = 'https://gitcheck-seven.vercel.app';
   const now = new Date();
   return [
     { url: base, lastModified: now, priority: 1.0 },

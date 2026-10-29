@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { Instrument_Sans, Instrument_Serif, JetBrains_Mono } from 'next/font/google';
-import { Analytics } from '@vercel/analytics/next';
+import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import './globals.css';
 
@@ -26,7 +26,7 @@ const mono = JetBrains_Mono({
   display: 'swap',
 });
 
-const SITE_URL = 'https://Gitcheck-two.vercel.app';
+const SITE_URL = 'https://gitcheck-seven.vercel.app';
 const DEFAULT_TITLE = 'GitCheck — Your AI wrote the code. We make it ready.';
 const DEFAULT_DESCRIPTION =
   'Scan any GitHub repo to find the security leaks, missing edge cases, and lazy AI tells that make an app look like a prototype.';

@@ -498,7 +498,7 @@ export async function GET(req: NextRequest) {
                 display: 'flex',
               }}
             >
-              GitCheck-two.vercel.app
+              gitcheck-seven.vercel.app
             </div>
           </div>
         </div>
