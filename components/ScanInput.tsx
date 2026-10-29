@@ -24,8 +24,11 @@ export function ScanInput({ onScan, loading }: Props) {
 
   function submit(e: React.FormEvent) {
     e.preventDefault();
-    if (!value.trim() || loading) return;
-    onScan(value.trim(), showToken && token ? token.trim() : undefined);
+    // Make absolutely sure we're sending a clean string without spaces
+    const cleanValue = value.trim();
+    if (!cleanValue || loading) return;
+    
+    onScan(cleanValue, showToken && token ? token.trim() : undefined);
   }
 
   function togglePrivate() {
@@ -105,7 +108,7 @@ export function ScanInput({ onScan, loading }: Props) {
           </button>
 
           <a
-            href="https://Github.com/settings/tokens/new?description=GitCheck&scopes=repo"
+            href="https://github.com/settings/tokens/new?description=gitcheck&scopes=repo"
             target="_blank"
             rel="noopener noreferrer"
             title="Opens GitHub with the token name and scope pre-filled"
@@ -124,7 +127,7 @@ export function ScanInput({ onScan, loading }: Props) {
                 type="password"
                 value={token}
                 onChange={(e) => setToken(e.target.value)}
-                placeholder="ghp_… or Github_pat_…"
+                placeholder="ghp_… or github_pat_…"
                 disabled={loading}
                 className="w-full bg-transparent px-5 py-3 text-sm font-mono outline-none disabled:opacity-60"
                 autoComplete="off"
@@ -136,7 +139,7 @@ export function ScanInput({ onScan, loading }: Props) {
               <span>
                 Used once, never stored.{' '}
                 <a
-                  href="https://Github.com/settings/tokens"
+                  href="https://github.com/settings/tokens"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="underline decoration-2 underline-offset-2 hover:text-accent"
