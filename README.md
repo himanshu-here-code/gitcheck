@@ -1,25 +1,25 @@
-# gitCheck
+# GitCheck
 
 **Is your app vibecoded?**
 
 Paste a GitHub repo URL. Get an honest report on what makes your app look
 like a prototype instead of a finished product.
 
-[**Try it live →**](https://gitcheck-two.vercel.app)
+[**Try it live →**](https://GitCheck-two.vercel.app)
 
 ---
 
 ## Demo
 
-(https://github.com/himanshu-here-code/gitcheck/blob/main/public/gitcheck-demo.mp4)
+(https://Github.com/himanshu-here-code/GitCheck/blob/main/public/GitCheck-demo.mp4)
 
-*(If the video doesn't play above, [watch it here](https://gitcheck-two.vercel.app) or download it from the repo.)*
+*(If the video doesn't play above, [watch it here](https://GitCheck-two.vercel.app) or download it from the repo.)*
 
 ---
 
 ## What it does
 
-gitCheck scans public GitHub repositories and flags the small things that
+GitCheck scans public GitHub repositories and flags the small things that
 quietly tell people your app isn't finished yet. No AI. No database. No
 storage. Just static analysis and an honest report.
 
@@ -30,7 +30,7 @@ It looks for:
 | **Legal & Trust** | Privacy policy, terms of service, cookie consent, license, contact page |
 | **SEO & Meta** | Page title, description, Open Graph image, favicon, robots.txt, sitemap |
 | **Errors & Edge States** | 404 page, error boundary, loading states, empty states |
-| **Code Hygiene** | `.env.example`, `.gitignore`, committed secrets, README, TODO comments |
+| **Code Hygiene** | `.env.example`, `.Gitignore`, committed secrets, README, TODO comments |
 | **vibecoded Signatures** | Placeholder copy, default fonts, purple gradients, hardcoded localhost URLs, emoji-as-icons |
 
 Each issue comes with a plain-English explanation and a **copy fix prompt**
@@ -43,14 +43,14 @@ issue into a structured prompt, ready for your AI of choice.
 
 ## Why
 
-I built gitCheck because I kept seeing the same thing: people shipping AI-built
+I built GitCheck because I kept seeing the same thing: people shipping AI-built
 apps that technically work but look unfinished. Missing privacy pages.
 Placeholder text still visible. Default Vite titles. No 404 page.
 
 None of these things are hard to fix. But nobody tells you they matter until
 someone bounces off your app without signing up.
 
-gitCheck is the tool I wish existed when I was shipping my first AI-built
+GitCheck is the tool I wish existed when I was shipping my first AI-built
 project.
 
 ---
@@ -91,8 +91,8 @@ Zero external services. Zero database. Zero AI API costs.
 
 ```bash
 # Clone
-git clone https://github.com/himanshu-here-code/gitcheck.git
-cd gitcheck
+Git clone https://Github.com/himanshu-here-code/GitCheck.Git
+cd GitCheck
 
 # Install
 npm install
@@ -112,15 +112,15 @@ Open [http://localhost:3000](http://localhost:3000).
 You need a token to raise the API rate limit from 60 requests/hour
 (unauthenticated) to 5,000 requests/hour. It's free.
 
-1. Go to https://github.com/settings/tokens
+1. Go to https://Github.com/settings/tokens
 2. Click **Generate new token (classic)**
-3. Name: `gitcheck-local`
+3. Name: `GitCheck-local`
 4. Expiration: 90 days (or whatever you prefer)
 5. **Leave every scope unchecked** — public repos only need an empty token
 6. Click **Generate token** and copy the `ghp_...` value
-7. Paste it into `.env.local` as `GITHUB_TOKEN=ghp_...`
+7. Paste it into `.env.local` as `GitHUB_TOKEN=ghp_...`
 
-Never commit `.env.local`. It's already in `.gitignore`.
+Never commit `.env.local`. It's already in `.Gitignore`.
 
 ---
 
@@ -128,14 +128,14 @@ Never commit `.env.local`. It's already in `.gitignore`.
 
 | Variable | Required | Description |
 |---|---|---|
-| `GITHUB_TOKEN` | Yes | Classic GitHub PAT with zero scopes. Used for public repo access only. |
+| `GitHUB_TOKEN` | Yes | Classic GitHub PAT with zero scopes. Used for public repo access only. |
 
 ---
 
 ## Project structure
 
 ```
-gitcheck/
+GitCheck/
 ├── app/
 │   ├── api/scan/route.ts       # The scanner endpoint
 │   ├── privacy/page.tsx        # Privacy policy
@@ -159,18 +159,18 @@ gitcheck/
 │   ├── ScoreRing.tsx           # Animated score ring
 │   └── StatGrid.tsx            # Issues / Passed / Files counters
 ├── lib/
-│   ├── github.ts               # GitHub API helpers
+│   ├── Github.ts               # GitHub API helpers
 │   ├── types.ts                # Shared TypeScript types
 │   └── checks/
 │       ├── index.ts            # Runs all checks, computes score
 │       ├── legal.ts            # Privacy, terms, cookies, license
 │       ├── seo.ts              # Meta tags, favicon, OG image
 │       ├── errors.ts           # 404, error boundary, loading
-│       ├── hygiene.ts          # .env, .gitignore, README, secrets
+│       ├── hygiene.ts          # .env, .Gitignore, README, secrets
 │       └── signatures.ts       # vibecoded fingerprint patterns
 ├── public/
 │   ├── icon.png                # Header icon
-│   └── gitcheck-demo.mp4      # Demo video
+│   └── GitCheck-demo.mp4      # Demo video
 ├── LICENSE
 ├── README.md
 └── SECURITY.md
@@ -209,7 +209,7 @@ Nothing else. Keep checks stateless.
 - [ ] OG image generation for shareable scan results
 - [ ] Shareable public scan URLs (`/scan/owner/repo`)
 - [ ] Private repo support (with OAuth)
-- [ ] CLI: `npx gitcheck owner/repo`
+- [ ] CLI: `npx GitCheck owner/repo`
 - [ ] GitHub Action: run on every PR
 
 ---
@@ -226,7 +226,7 @@ vercel
 Then in the Vercel dashboard:
 
 1. Go to **Settings → Environment Variables**
-2. Add `GITHUB_TOKEN` for Production, Preview, and Development
+2. Add `GitHUB_TOKEN` for Production, Preview, and Development
 3. Redeploy
 
 ---
@@ -248,22 +248,22 @@ Issues and PRs welcome. A few guidelines:
 
 ## License
 
-[AGPL-3.0](LICENSE) — you're free to fork, self-host, and modify gitCheck.
+[AGPL-3.0](LICENSE) — you're free to fork, self-host, and modify GitCheck.
 
 The one rule: if you run a modified version as a public service (a website,
 an API, a SaaS — anything other people use over a network), you must publish
 your modified source code under the same license.
 
-That keeps gitCheck open for learning, tinkering, and contribution, while
+That keeps GitCheck open for learning, tinkering, and contribution, while
 preventing anyone from repackaging it and selling it as their own.
 
-Want to use gitCheck commercially without the AGPL obligation? Reach out on
-[GitHub](https://github.com/himanshu-here-code) — happy to talk about a
+Want to use GitCheck commercially without the AGPL obligation? Reach out on
+[GitHub](https://Github.com/himanshu-here-code) — happy to talk about a
 commercial license.
 
 ---
 
 ## Credits
 
-Built by [Himanshu](https://github.com/himanshu-here-code) because vibecoded
+Built by [Himanshu](https://Github.com/himanshu-here-code) because vibecoded
 apps deserve a chance to grow up.

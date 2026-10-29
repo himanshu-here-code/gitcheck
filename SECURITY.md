@@ -2,9 +2,9 @@
 
 ## Reporting a vulnerability
 
-If you discover a security issue in gitCheck, please report it privately by
+If you discover a security issue in GitCheck, please report it privately by
 emailing **week.updates.with.himanshu@gmail.com** or opening a
-[private security advisory](https://github.com/himanshu-here-code/gitcheck/security/advisories/new).
+[private security advisory](https://Github.com/himanshu-here-code/GitCheck/security/advisories/new).
 
 Please do not open a public issue for security problems.
 
@@ -13,7 +13,7 @@ stay anonymous).
 
 ## Scope
 
-gitCheck processes public GitHub repository URLs and displays the results.
+GitCheck processes public GitHub repository URLs and displays the results.
 The relevant attack surface:
 
 - The `/api/scan` endpoint (URL parsing, GitHub API calls)

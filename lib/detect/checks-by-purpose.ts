@@ -11,9 +11,10 @@ import { ProjectPurpose } from './purpose';
  *   - legal:    privacy, terms, contact — only for user-facing products
  *   - seo:      meta tags, OG images, sitemaps — only for indexed web pages
  *   - errors:   404, error boundaries, empty states — only for UIs
- *   - hygiene:  .gitignore, .env.example, README — universal
+ *   - hygiene:  .Gitignore, .env.example, README — universal
  *   - signatures: placeholder text, gradients, hardcoded secrets — universal
  *   - quality:  unused deps, alt text, TODOs — universal
+ *   - secrets:  public-env leaks, committed keys — universal (safety net)
  */
 export function resolveChecks(
   type: ProjectType,
@@ -24,28 +25,22 @@ export function resolveChecks(
   // ===========================================================================
   switch (purpose) {
     case 'learning':
-      // Tutorials and courses have no users to serve. Skip product checks.
-      return ['hygiene', 'signatures', 'quality'];
+      return ['hygiene', 'signatures', 'quality', 'secrets'];
 
     case 'experiment':
-      // Scratch projects — only find obvious issues.
-      return ['signatures', 'quality'];
+      return ['signatures', 'quality', 'secrets'];
 
     case 'portfolio':
-      // Personal site — SEO matters, legal doesn't (no data collected).
-      return ['seo', 'errors', 'signatures', 'quality'];
+      // No legal — portfolio sites don't need privacy pages.
+      return ['seo', 'errors', 'signatures', 'quality', 'secrets'];
 
     case 'docs':
-      // Pure documentation — SEO for finding it, quality for content.
-      // No hygiene (no build artifacts), no legal (no users), no errors (no UI).
-      return ['seo', 'quality'];
+      return ['seo', 'quality', 'secrets'];
 
     case 'boilerplate':
-      // Starter templates should include a placeholder privacy policy
-      // so users filling it in don't forget.
-      return ['legal', 'hygiene', 'signatures', 'quality'];
+      return ['legal', 'hygiene', 'signatures', 'quality', 'secrets'];
 
-    // product and unknown fall through to type-based rules
+    // 'product' and 'unknown' fall through to type-based rules
   }
 
   // ===========================================================================
@@ -59,20 +54,25 @@ export function resolveChecks(
       'hygiene',
       'signatures',
       'quality',
+      'secrets',
     ],
-    'cli-tool': ['hygiene', 'signatures', 'quality'],
-    library: ['hygiene', 'signatures', 'quality'],
-    'mobile-app': ['legal', 'errors', 'hygiene', 'signatures', 'quality'],
+    'cli-tool': ['hygiene', 'signatures', 'quality', 'secrets'],
+    library: ['hygiene', 'signatures', 'quality', 'secrets'],
+    'mobile-app': ['legal', 'errors', 'hygiene', 'signatures', 'quality', 'secrets'],
     'browser-extension': [
       'legal',
       'errors',
       'hygiene',
       'signatures',
       'quality',
+      'secrets',
     ],
-    'api-service': ['hygiene', 'signatures', 'quality'],
-    docs: ['seo', 'quality'],
-    unknown: ['legal', 'seo', 'errors', 'hygiene', 'signatures', 'quality'],
+    'api-service': ['hygiene', 'signatures', 'quality', 'secrets'],
+    docs: ['seo', 'quality', 'secrets'],
+    // unknown means we couldn't classify confidently. Don't run legal —
+    // that's the one category that assumes real users. Everything else
+    // is safe to run on any repo.
+    unknown: ['seo', 'errors', 'hygiene', 'signatures', 'quality', 'secrets'],
   };
 
   return BY_TYPE[type];

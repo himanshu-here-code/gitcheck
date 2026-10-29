@@ -2,15 +2,15 @@ import { RepoContext } from './types';
 import { detectLanguages } from './detect/language';
 import { LANGUAGE_PACKS } from './detect/language-packs';
 
-const GH = 'https://api.github.com';
+const GH = 'https://api.Github.com';
 
 function headers(authToken?: string) {
   const h: Record<string, string> = {
-    Accept: 'application/vnd.github+json',
-    'User-Agent': 'gitcheck',
+    Accept: 'application/vnd.Github+json',
+    'User-Agent': 'GitCheck',
   };
   // Prefer the user's token if provided; fall back to our env token
-  const token = authToken || process.env.GITHUB_TOKEN;
+  const token = authToken || process.env.GitHUB_TOKEN;
   if (token) {
     h.Authorization = `Bearer ${token}`;
   }
@@ -18,10 +18,10 @@ function headers(authToken?: string) {
 }
 
 export function parseRepoUrl(input: string): { owner: string; repo: string } | null {
-  const cleaned = input.trim().replace(/\.git$/, '').replace(/\/$/, '');
+  const cleaned = input.trim().replace(/\.Git$/, '').replace(/\/$/, '');
   const patterns = [
     /^([\w.-]+)\/([\w.-]+)$/,
-    /github\.com\/([\w.-]+)\/([\w.-]+)/,
+    /Github\.com\/([\w.-]+)\/([\w.-]+)/,
   ];
   for (const re of patterns) {
     const m = cleaned.match(re);
@@ -64,7 +64,7 @@ export async function buildRepoContext(
 
   // 2. File tree
   const treeRes = await fetch(
-    `${GH}/repos/${owner}/${repo}/git/trees/${encodeURIComponent(branch)}?recursive=1`,
+    `${GH}/repos/${owner}/${repo}/Git/trees/${encodeURIComponent(branch)}?recursive=1`,
     { headers: headers(authToken) }
   );
   if (!treeRes.ok) throw new Error(`Tree fetch failed: ${treeRes.status}`);
@@ -88,8 +88,8 @@ export async function buildRepoContext(
       const encodedPath = encodeRepoPath(path);
       const encodedBranch = encodeURIComponent(branch);
       const res = await fetch(
-        `https://raw.githubusercontent.com/${owner}/${repo}/${encodedBranch}/${encodedPath}`,
-        // raw.githubusercontent.com needs the Authorization header for private repos
+        `https://raw.Githubusercontent.com/${owner}/${repo}/${encodedBranch}/${encodedPath}`,
+        // raw.Githubusercontent.com needs the Authorization header for private repos
         authToken ? { headers: { Authorization: `token ${authToken}` } } : undefined
       );
       if (!res.ok) {

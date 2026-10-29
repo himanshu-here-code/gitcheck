@@ -105,7 +105,7 @@ export function ScanInput({ onScan, loading }: Props) {
           </button>
 
           <a
-            href="https://github.com/settings/tokens/new?description=gitcheck&scopes=repo"
+            href="https://Github.com/settings/tokens/new?description=GitCheck&scopes=repo"
             target="_blank"
             rel="noopener noreferrer"
             title="Opens GitHub with the token name and scope pre-filled"
@@ -124,7 +124,7 @@ export function ScanInput({ onScan, loading }: Props) {
                 type="password"
                 value={token}
                 onChange={(e) => setToken(e.target.value)}
-                placeholder="ghp_… or github_pat_…"
+                placeholder="ghp_… or Github_pat_…"
                 disabled={loading}
                 className="w-full bg-transparent px-5 py-3 text-sm font-mono outline-none disabled:opacity-60"
                 autoComplete="off"
@@ -136,7 +136,7 @@ export function ScanInput({ onScan, loading }: Props) {
               <span>
                 Used once, never stored.{' '}
                 <a
-                  href="https://github.com/settings/tokens"
+                  href="https://Github.com/settings/tokens"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="underline decoration-2 underline-offset-2 hover:text-accent"

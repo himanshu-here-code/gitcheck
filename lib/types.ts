@@ -7,6 +7,18 @@ import type { LanguagePack } from './detect/language-packs';
 
 export type Severity = 'critical' | 'high' | 'medium' | 'low';
 
+/**
+ * How sure are we this issue is real?
+ *
+ *  - high:   deterministic (file exists / doesn't exist, regex match that can't be false)
+ *  - medium: strong heuristic (prose signal, code smell that's usually real)
+ *  - low:    style opinion or stylistic pattern that might be intentional
+ *
+ * Missing `confidence` on an Issue defaults to `'high'`.
+ * Low-confidence issues contribute far less to the score.
+ */
+export type Confidence = 'high' | 'medium' | 'low';
+
 export type Category =
   | 'legal'
   | 'seo'
@@ -14,7 +26,58 @@ export type Category =
   | 'hygiene'
   | 'signatures'
   | 'quality'
-  | 'analytics';
+  | 'analytics'
+  | 'security';
+
+// -----------------------------------------------------------------------------
+// Code evidence
+// -----------------------------------------------------------------------------
+
+/**
+ * One line of context inside a match block.
+ */
+export interface ContextLine {
+  line: number;
+  text: string;
+  isMatch: boolean;
+}
+
+/**
+ * One match within a file. The exact substring the regex matched is
+ * recorded by character offset within the line. The UI highlights
+ * `line.slice(matchStart, matchEnd)` so what the user sees IS what the
+ * rule matched.
+ */
+export interface CodeMatch {
+  /** 1-indexed line number within the file. */
+  line: number;
+  /** Full (possibly truncated) line content. */
+  text: string;
+  /** Char offset where the regex match starts within `text`. */
+  matchStart: number;
+  /** Char offset where the regex match ends (exclusive). */
+  matchEnd: number;
+  /** The block of code surrounding this match (5 lines above, 5 below). */
+  context: ContextLine[];
+}
+
+/**
+ * All matches found in a single file. One `CodeMatch` per hit.
+ */
+export interface FileEvidence {
+  /** Path relative to repo root. */
+  file: string;
+  /** All matches in this file, ordered by line number. */
+  matches: CodeMatch[];
+  /** True if this file's matches were truncated (more exist but we capped). */
+  truncated?: boolean;
+}
+
+/**
+ * Issue.evidence is an array of `FileEvidence`, one per file the check
+ * matched.
+ */
+export type CodeEvidence = FileEvidence[];
 
 // -----------------------------------------------------------------------------
 // Issue
@@ -29,10 +92,17 @@ export interface Issue {
   fix: string;
   docs?: string;
   affectedFiles?: string[];
+  /** Defaults to 'high' when omitted. */
+  confidence?: Confidence;
+  /**
+   * Per-file matches that triggered this issue. Present only when the
+   * check could locate specific lines.
+   */
+  evidence?: CodeEvidence;
 }
 
 // -----------------------------------------------------------------------------
-// RepoContext — everything a check needs to know about the repo
+// RepoContext
 // -----------------------------------------------------------------------------
 
 export interface RepoContext {
@@ -45,9 +115,7 @@ export interface RepoContext {
   getFileByPattern: (re: RegExp) => string | null;
   language: LanguageDetection;
   lang: LanguagePack;
-  /** Set by the orchestrator before running checks. */
   projectPurpose?: string;
-  /** Set by the orchestrator before running checks. */
   projectType?: string;
 }
 

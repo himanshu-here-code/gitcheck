@@ -6,7 +6,7 @@ import { GithubIcon } from './Icons';
 export function Header() {
   function handleLogoClick() {
     if (typeof window !== 'undefined') {
-      window.dispatchEvent(new Event('gitcheck:reset'));
+      window.dispatchEvent(new Event('GitCheck:reset'));
     }
   }
 
@@ -20,14 +20,14 @@ export function Header() {
         >
           <Image
             src="/icon.png"
-            alt="gitCheck"
+            alt="GitCheck"
             width={36}
             height={36}
             className="rounded-md"
             priority
           />
           <span className="flex items-baseline gap-1">
-            <span className="font-display">git</span>
+            <span className="font-display">Git</span>
             <span className="font-display italic text-accent">Check</span>
           </span>
         </Link>
@@ -52,7 +52,7 @@ export function Header() {
           />
 
           <a
-            href="https://github.com/himanshu-here-code"
+            href="https://Github.com/himanshu-here-code"
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center gap-2 rounded-lg px-3 py-2 transition-opacity hover:opacity-60"

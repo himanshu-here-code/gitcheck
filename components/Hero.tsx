@@ -17,16 +17,15 @@ export function Hero() {
       </div>
 
       <div className="container-tight relative pt-40 pb-16 text-center md:pt-48 md:pb-20">
-        <h1 className="headline text-[60px] sm:text-[76px] md:text-[92px]">
-          Is your app
+        <h1 className="headline text-[50px] sm:text-[64px] md:text-[80px] lg:text-[92px] leading-[1.05]">
+          Your AI wrote the code.
           <br />
-          <em>vibecoded?</em>
+          <em>We make it ready.</em>
         </h1>
 
         <p className="mx-auto mt-8 max-w-2xl text-[16px] sm:text-[17px] leading-relaxed text-muted">
-          Scan any GitHub repo to strip out lazy AI UI and robotic copy.
-          Make your vibecoded Vercel app feel like a real, handcrafted
-          product.
+          Scan any GitHub repo to find the security leaks, missing edge cases, and lazy AI tells that make an app look like a prototype.
+          Context-aware. Under 10 seconds. Free.
         </p>
       </div>
     </section>

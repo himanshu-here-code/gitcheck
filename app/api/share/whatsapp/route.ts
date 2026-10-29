@@ -3,7 +3,7 @@ import { decodeScanFromUrl } from '@/lib/cache';
 
 export const runtime = 'edge';
 
-const SITE_URL = 'https://gitcheck-two.vercel.app';
+const SITE_URL = 'https://GitCheck-two.vercel.app';
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
@@ -25,17 +25,17 @@ export async function GET(req: NextRequest) {
   let lead: string;
 
   if (issueCount === 0) {
-    lead = `Ran ${repo} through gitCheck — scored ${score}% (grade ${grade}). No issues found.`;
+    lead = `Ran ${repo} through GitCheck — scored ${score}% (grade ${grade}). No issues found.`;
   } else if (score >= 70) {
-    lead = `Ran ${repo} through gitCheck — scored ${score}% (grade ${grade}). ${issueCount} ${issueWord} worth fixing.`;
+    lead = `Ran ${repo} through GitCheck — scored ${score}% (grade ${grade}). ${issueCount} ${issueWord} worth fixing.`;
   } else if (score >= 50) {
-    lead = `${repo} scored ${score}% on gitCheck — ${issueCount} ${issueWord} to work through.`;
+    lead = `${repo} scored ${score}% on GitCheck — ${issueCount} ${issueWord} to work through.`;
   } else if (score >= 30) {
-    lead = `${repo} scored ${score}% on gitCheck — getting close, ${issueCount} ${issueWord} left.`;
+    lead = `${repo} scored ${score}% on GitCheck — getting close, ${issueCount} ${issueWord} left.`;
   } else if (score >= 15) {
-    lead = `${repo} scored ${score}% on gitCheck — looking solid, only ${issueCount} minor ${issueWord}.`;
+    lead = `${repo} scored ${score}% on GitCheck — looking solid, only ${issueCount} minor ${issueWord}.`;
   } else {
-    lead = `${repo} scored ${score}% on gitCheck — this looks professional.`;
+    lead = `${repo} scored ${score}% on GitCheck — this looks professional.`;
   }
 
   const shareUrl = `${SITE_URL}/?repo=${encodeURIComponent(

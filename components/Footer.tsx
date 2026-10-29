@@ -8,9 +8,9 @@ export function Footer() {
     >
       <div className="container flex flex-col items-center justify-between gap-4 py-8 sm:flex-row">
         <div className="text-sm font-semibold text-muted">
-          © {new Date().getFullYear()} gitCheck — built by{' '}
+          © {new Date().getFullYear()} GitCheck — built by{' '}
           <a
-            href="https://github.com/himanshu-here-code"
+            href="https://Github.com/himanshu-here-code"
             target="_blank"
             rel="noopener noreferrer"
             className="underline decoration-2 underline-offset-2 hover:text-accent"
@@ -27,7 +27,7 @@ export function Footer() {
             Terms
           </Link>
           <a
-            href="https://github.com/himanshu-here-code"
+            href="https://Github.com/himanshu-here-code"
             target="_blank"
             rel="noopener noreferrer"
             className="hover:text-accent"

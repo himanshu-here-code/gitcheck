@@ -26,10 +26,10 @@ const mono = JetBrains_Mono({
   display: 'swap',
 });
 
-const SITE_URL = 'https://gitcheck-two.vercel.app';
-const DEFAULT_TITLE = 'gitCheck — Is your app vibecoded?';
+const SITE_URL = 'https://Gitcheck-two.vercel.app';
+const DEFAULT_TITLE = 'GitCheck — Your AI wrote the code. We make it ready.';
 const DEFAULT_DESCRIPTION =
-  'Scan any GitHub repo to strip out lazy AI UI and robotic copy.';
+  'Scan any GitHub repo to find the security leaks, missing edge cases, and lazy AI tells that make an app look like a prototype.';
 
 export async function generateMetadata({
   searchParams,
@@ -48,26 +48,26 @@ export async function generateMetadata({
 
     return {
       metadataBase: new URL(SITE_URL),
-      title: `${repo} — gitCheck`,
+      title: `${repo} — GitCheck`,
       description: `Scan results for ${repo}`,
       openGraph: {
-        title: `${repo} — gitCheck`,
+        title: `${repo} — GitCheck`,
         description: `Scan results for ${repo}`,
         url: `${SITE_URL}/?repo=${encodeURIComponent(repo)}${encoded ? `&d=${encoded}` : ''}`,
-        siteName: 'gitCheck',
+        siteName: 'GitCheck',
         type: 'website',
         images: [
           {
             url: ogUrl,
             width: 1200,
             height: 630,
-            alt: `gitCheck scan for ${repo}`,
+            alt: `GitCheck scan for ${repo}`,
           },
         ],
       },
       twitter: {
         card: 'summary_large_image',
-        title: `${repo} — gitCheck`,
+        title: `${repo} — GitCheck`,
         description: `Scan results for ${repo}`,
         images: [ogUrl],
       },
@@ -83,10 +83,10 @@ export async function generateMetadata({
       title: DEFAULT_TITLE,
       description: DEFAULT_DESCRIPTION,
       url: SITE_URL,
-      siteName: 'gitCheck',
+      siteName: 'GitCheck',
       type: 'website',
       images: [
-        { url: defaultOgUrl, width: 1200, height: 630, alt: 'gitCheck' },
+        { url: defaultOgUrl, width: 1200, height: 630, alt: 'GitCheck' },
       ],
     },
     twitter: {

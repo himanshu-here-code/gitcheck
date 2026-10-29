@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { parseRepoUrl, buildRepoContext } from '@/lib/github';
+import { parseRepoUrl, buildRepoContext } from '@/lib/Github';
 import { runAllChecks } from '@/lib/checks';
 import { cacheScan, getCachedScan } from '@/lib/cache';
 
@@ -54,7 +54,7 @@ export async function POST(req: NextRequest) {
         );
       }
       // Only allow GitHub token formats
-      if (!/^(ghp_|github_pat_|gho_|ghu_|ghs_|ghr_)/.test(authToken)) {
+      if (!/^(ghp_|Github_pat_|gho_|ghu_|ghs_|ghr_)/.test(authToken)) {
         return NextResponse.json(
           { error: 'authToken does not look like a GitHub token' },
           { status: 400 }
@@ -65,7 +65,7 @@ export async function POST(req: NextRequest) {
     const parsed = parseRepoUrl(repoUrl);
     if (!parsed) {
       return NextResponse.json(
-        { error: 'Invalid GitHub URL. Try "owner/repo" or a github.com URL.' },
+        { error: 'Invalid GitHub URL. Try "owner/repo" or a Github.com URL.' },
         { status: 400 }
       );
     }

@@ -105,7 +105,7 @@ function looksLikeContactPage(content: string): boolean {
     /(get in touch|reach out|say hi|say hello|drop us a line)/i,
     /(email|mail|write|message) us (at|via)/i,
     /@[a-z0-9-]+\.[a-z]{2,}/i,
-    /(github\.com\/|gitlab\.com\/|mailto:|twitter\.com\/|x\.com\/|linkedin\.com\/)/i,
+    /(Github\.com\/|Gitlab\.com\/|mailto:|twitter\.com\/|x\.com\/|linkedin\.com\/)/i,
     /(contact (form|page|info|details))/i,
   ];
   return signals.filter((r) => r.test(text)).length >= 2;
@@ -320,7 +320,7 @@ async function footerHasContactLink(ctx: RepoContext): Promise<boolean> {
     const content = await ctx.getFile(f);
     if (!content) continue;
     if (
-      /(mailto:|href\s*=\s*["']\/contact|href\s*=\s*["'][^"']*github\.com\/[^"']*\/issues)/i.test(
+      /(mailto:|href\s*=\s*["']\/contact|href\s*=\s*["'][^"']*Github\.com\/[^"']*\/issues)/i.test(
         content
       )
     ) {

@@ -22,7 +22,7 @@ export function ProfileCard({
     const [ownerLogin] = (result.repo as string).split('/');
     setOwner(ownerLogin);
 
-    fetch(`https://api.github.com/users/${ownerLogin}`)
+    fetch(`https://api.Github.com/users/${ownerLogin}`)
       .then((r) => (r.ok ? r.json() : null))
       .then((d) => {
         if (d?.avatar_url) setAvatar(d.avatar_url);
@@ -56,33 +56,25 @@ export function ProfileCard({
 
   return (
     <div className="bd bs-lg rounded-3xl bg-card p-8 md:p-10">
-      <div className="flex flex-col gap-8 md:flex-row md:items-center">
+      {/* ------------------------------------------------------------------ */}
+      {/* CONTEXT BANNER — the "we know what this is" moment                  */}
+      {/* ------------------------------------------------------------------ */}
+      <ContextBanner
+        typeLabel={typeLabel}
+        purposeLabel={purposeLabel}
+        fileCount={result.fileCount}
+        ranChecks={7 - skippedChecks.length}
+        skippedChecks={skippedChecks}
+        isPrivate={isPrivate}
+        onPrivateClick={() => setShowPrivate(!showPrivate)}
+      />
+
+      <div className="mt-8 flex flex-col gap-8 md:flex-row md:items-center">
         <ScoreRing score={result.score} />
 
         <div className="min-w-0 flex-1">
-          {/* Report label + private badge */}
-          <div className="flex items-center gap-2 flex-wrap">
-            <div className="text-[11px] font-bold uppercase tracking-[0.14em] text-muted">
-              Report for
-            </div>
-            {isPrivate && (
-              <button
-                onClick={() => setShowPrivate(!showPrivate)}
-                className="inline-flex items-center gap-1 rounded-full border-2 px-2 py-0.5 text-[10px] font-black uppercase tracking-wider transition-opacity hover:opacity-80"
-                style={{
-                  background: '#fbbf24',
-                  borderColor: '#0a0a0a',
-                  color: '#0a0a0a',
-                }}
-              >
-                <LockIcon size={10} />
-                Private
-              </button>
-            )}
-          </div>
-
           {/* Repo identity */}
-          <div className="mt-3 flex items-center gap-3">
+          <div className="flex items-center gap-3">
             {avatar ? (
               // eslint-disable-next-line @next/next/no-img-element
               <img
@@ -106,16 +98,7 @@ export function ProfileCard({
                 {result.repo}
               </div>
               <div className="mt-0.5 text-xs text-muted">
-                {typeLabel ? (
-                  <>
-                    {typeLabel}
-                    {purposeLabel && <> · {purposeLabel}</>}
-                    {' · '}
-                    {result.fileCount} files
-                  </>
-                ) : (
-                  <>{result.fileCount} files analyzed</>
-                )}
+                {result.fileCount} files analyzed
               </div>
             </div>
           </div>
@@ -137,11 +120,11 @@ export function ProfileCard({
 
             {!isPrivate && (
               <ShareButton
-                  repo={result.repo}
-                  score={result.score}
-                  grade={result.grade}
-                  result={result}
-                />
+                repo={result.repo}
+                score={result.score}
+                grade={result.grade}
+                result={result}
+              />
             )}
 
             {isPrivate && (
@@ -170,45 +153,100 @@ export function ProfileCard({
           </p>
         </div>
       )}
-
-      {/* Skipped checks — a single quiet line */}
-      {skippedChecks.length > 0 && (
-        <div
-          className="mt-6 flex items-start gap-2 text-[12px] leading-relaxed"
-          style={{ color: '#6b6b6b' }}
-        >
-          <span
-            className="shrink-0 mt-[3px] h-1.5 w-1.5 rounded-full"
-            style={{ background: 'rgba(10,10,10,0.2)' }}
-          />
-          <span>
-            <strong style={{ color: '#0a0a0a' }}>
-              {skippedChecks.length} check
-              {skippedChecks.length === 1 ? '' : 's'} skipped.
-            </strong>{' '}
-            {skipReason(result.projectType?.type ?? 'unknown')}
-          </span>
-        </div>
-      )}
     </div>
   );
 }
 
-function skipReason(type: string): string {
-  switch (type) {
-    case 'library':
-      return 'App-level checks don\u2019t apply to libraries and SDKs.';
-    case 'cli-tool':
-      return 'Web checks don\u2019t apply to CLI tools.';
-    case 'docs':
-      return 'App-level checks don\u2019t apply to documentation.';
-    case 'api-service':
-      return 'Frontend checks don\u2019t apply to backend services.';
-    case 'browser-extension':
-      return 'Some web checks don\u2019t apply to browser extensions.';
-    default:
-      return 'Some checks don\u2019t apply to this kind of project.';
+// =============================================================================
+// Context banner — the demo hook
+// =============================================================================
+
+function ContextBanner({
+  typeLabel,
+  purposeLabel,
+  fileCount,
+  ranChecks,
+  skippedChecks,
+  isPrivate,
+  onPrivateClick,
+}: {
+  typeLabel: string | null;
+  purposeLabel: string | null;
+  fileCount: number;
+  ranChecks: number;
+  skippedChecks: string[];
+  isPrivate: boolean;
+  onPrivateClick: () => void;
+}) {
+  if (!typeLabel && !purposeLabel) {
+    return null;
   }
+
+  return (
+    <div
+      className="rounded-2xl border-2 px-5 py-4"
+      style={{ borderColor: '#0a0a0a', background: '#f4f1ff' }}
+    >
+      <div className="flex flex-wrap items-center gap-2 text-[11px] font-bold uppercase tracking-[0.14em] text-muted">
+        <span>Detected</span>
+        {isPrivate && (
+          <button
+            onClick={onPrivateClick}
+            className="inline-flex items-center gap-1 rounded-full border-2 px-2 py-0.5 text-[10px] font-black uppercase tracking-wider transition-opacity hover:opacity-80"
+            style={{
+              background: '#fbbf24',
+              borderColor: '#0a0a0a',
+              color: '#0a0a0a',
+            }}
+          >
+            <LockIcon size={10} />
+            Private
+          </button>
+        )}
+      </div>
+
+      <div className="mt-1.5 flex flex-wrap items-baseline gap-x-2 gap-y-1">
+        {typeLabel && (
+          <span className="font-display text-2xl leading-tight">
+            {typeLabel}
+          </span>
+        )}
+        {typeLabel && purposeLabel && (
+          <span className="text-lg text-muted">·</span>
+        )}
+        {purposeLabel && (
+          <span className="font-display italic text-2xl leading-tight text-accent">
+            {purposeLabel}
+          </span>
+        )}
+      </div>
+
+      <div className="mt-2 text-[12px] leading-relaxed text-muted">
+        <strong style={{ color: '#0a0a0a' }}>
+          Ran {ranChecks} check{ranChecks === 1 ? '' : 's'} on {fileCount} files.
+        </strong>
+        {skippedChecks.length > 0 && (
+          <>
+            {' '}
+            Skipped {skippedChecks.length} — {skipReason(typeLabel ?? '', skippedChecks)}.
+          </>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function skipReason(typeLabel: string, skipped: string[]): string {
+  if (skipped.includes('legal')) {
+    return 'legal checks assume real users, which this repo doesn\u2019t have';
+  }
+  if (skipped.includes('seo')) {
+    return 'SEO doesn\u2019t apply to this kind of project';
+  }
+  if (skipped.includes('errors')) {
+    return 'error pages don\u2019t apply here';
+  }
+  return 'they don\u2019t apply to this kind of project';
 }
 
 function verdictCopy(score: number, purpose?: string): string {

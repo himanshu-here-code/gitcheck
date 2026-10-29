@@ -1,19 +1,34 @@
-import { ScanResult, Issue, RepoContext } from '../types';
+import { ScanResult, Issue, RepoContext, Confidence } from '../types';
 import { checkLegal } from './legal';
 import { checkSEO } from './seo';
 import { checkErrorStates } from './errors';
 import { checkHygiene } from './hygiene';
 import { checkSignatures } from './signatures';
 import { checkQuality } from './quality';
+import { checkSecrets } from './secrets';
 import { detectProjectType, ProjectTypeResult } from '../detect/project-type';
 import { detectPurpose, PurposeDetection } from '../detect/purpose';
 import { resolveChecks } from '../detect/checks-by-purpose';
+
+// -----------------------------------------------------------------------------
+// Scoring
+//
+//   Raw severity weight × confidence multiplier.
+//   Confident issues count fully; subjective patterns barely move the needle.
+//   This is what keeps Next.js at ~3% instead of ~10%.
+// -----------------------------------------------------------------------------
 
 const WEIGHTS: Record<Issue['severity'], number> = {
   critical: 20,
   high: 10,
   medium: 5,
   low: 2,
+};
+
+const CONFIDENCE_MULTIPLIER: Record<Confidence, number> = {
+  high: 1,
+  medium: 0.6,
+  low: 0.3,
 };
 
 type CheckRunner = (
@@ -27,6 +42,7 @@ const RUNNERS: Record<string, CheckRunner> = {
   hygiene: checkHygiene,
   signatures: checkSignatures,
   quality: checkQuality,
+  secrets: checkSecrets,
 };
 
 const ALL_CHECKS: string[] = [
@@ -36,6 +52,7 @@ const ALL_CHECKS: string[] = [
   'hygiene',
   'signatures',
   'quality',
+  'secrets',
 ];
 
 export async function runAllChecks(ctx: RepoContext): Promise<
@@ -92,19 +109,22 @@ export async function runAllChecks(ctx: RepoContext): Promise<
   // ---------------------------------------------------------------------------
   const issues: Issue[] = results
     .flatMap((r) => r.issues)
-    .sort((a, b) => WEIGHTS[b.severity] - WEIGHTS[a.severity]);
+    .sort((a, b) => {
+      const aScore = WEIGHTS[a.severity] * CONFIDENCE_MULTIPLIER[a.confidence ?? 'high'];
+      const bScore = WEIGHTS[b.severity] * CONFIDENCE_MULTIPLIER[b.confidence ?? 'high'];
+      return bScore - aScore;
+    });
 
   const passed: string[] = results.flatMap((r) => r.passed);
 
   // ---------------------------------------------------------------------------
-  // Step 6: Compute score
-  //
-  //    Score is a weighted sum of severities, capped at 100.
-  //    A repo with no issues scores 0 (grade A).
-  //    A repo with only criticals scores high (grade F).
+  // Step 6: Compute score with confidence-weighted severities
   // ---------------------------------------------------------------------------
-  const rawScore = issues.reduce((sum, i) => sum + WEIGHTS[i.severity], 0);
-  const score = Math.min(100, rawScore);
+  const rawScore = issues.reduce((sum, i) => {
+    const mult = CONFIDENCE_MULTIPLIER[i.confidence ?? 'high'];
+    return sum + WEIGHTS[i.severity] * mult;
+  }, 0);
+  const score = Math.min(100, Math.round(rawScore));
 
   const grade =
     score >= 70

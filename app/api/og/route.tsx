@@ -184,7 +184,7 @@ export async function GET(req: NextRequest) {
                 gap: '12px',
               }}
             >
-              <span>git</span>
+              <span>Git</span>
               <span style={{ color: t.accent, fontStyle: 'italic' }}>Check</span>
             </div>
             <div
@@ -270,7 +270,7 @@ export async function GET(req: NextRequest) {
                   gap: '8px',
                 }}
               >
-                <span>git</span>
+                <span>Git</span>
                 <span style={{ color: t.accent, fontStyle: 'italic' }}>
                   Check
                 </span>
@@ -498,7 +498,7 @@ export async function GET(req: NextRequest) {
                 display: 'flex',
               }}
             >
-              gitcheck-two.vercel.app
+              GitCheck-two.vercel.app
             </div>
           </div>
         </div>

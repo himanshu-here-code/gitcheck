@@ -1,5 +1,32 @@
 import { Issue, RepoContext } from '../types';
 
+// =============================================================================
+// Constants
+// =============================================================================
+
+const DYNAMIC_LANGUAGES = new Set(['javascript', 'python', 'ruby', 'php']);
+
+const LEGitIMATELY_LARGE_BASENAMES = new Set([
+  'app.py', 'main.py', 'main.go', 'main.rs', 'lib.rs',
+  'index.ts', 'index.tsx', 'index.js', 'index.jsx',
+  'app.ts', 'server.ts', 'server.js',
+  'router.ts', 'router.js', 'routes.ts', 'routes.js',
+  'schema.ts', 'schema.js',
+  'urql.ts', 'worker.ts', 'worker.js',
+]);
+
+const FRAMEWORK_PATH_FRAGMENTS = [
+  'framework/', 'internal/', 'vendor/', 'generated/',
+  '__generated__/', '.generated/', 'compiled/', 'dist/', 'build/',
+];
+
+const MAX_FILE_LINES = { dynamic: 1500, static: 2500 } as const;
+const MAX_MASSIVE_LINES = 5000;
+
+// =============================================================================
+// Main check
+// =============================================================================
+
 export async function checkQuality(ctx: RepoContext): Promise<{
   issues: Issue[];
   passed: string[];
@@ -8,21 +35,22 @@ export async function checkQuality(ctx: RepoContext): Promise<{
   const passed: string[] = [];
   const { language } = ctx;
 
-  const isJS = language.primary === 'typescript' || language.primary === 'javascript';
+  const isJS =
+    language.primary === 'typescript' || language.primary === 'javascript';
 
   const sourceFiles = ctx.files.filter(
     (f) =>
       ctx.lang.sourceExtensions.test(f) &&
-      !f.includes('node_modules') &&
-      !f.includes('.next') &&
-      !f.includes('dist/') &&
-      !f.includes('venv/') &&
-      !f.includes('__pycache__/') &&
-      !/_test\.go$|_test\.py$|^test_.*\.py$|\.spec\.|\.test\./i.test(f)
+      !isBuildPath(f) &&
+      !isTestFile(f)
   );
 
   const htmlFiles = ctx.files.filter(
-    (f) => /\.html?$/i.test(f) && !f.includes('node_modules') && !f.includes('doc/') && !f.includes('docs/')
+    (f) =>
+      /\.html?$/i.test(f) &&
+      !isBuildPath(f) &&
+      !f.includes('doc/') &&
+      !f.includes('docs/')
   );
 
   // ---------------------------------------------------------------------------
@@ -39,12 +67,14 @@ export async function checkQuality(ctx: RepoContext): Promise<{
       return matches.some((tag) => !altRe.test(tag));
     };
 
-    for (const f of sourceFiles.slice(0, 40)) {
+    const ordered = [...sourceFiles].sort((a, b) => b.length - a.length);
+
+    for (const f of ordered.slice(0, 50)) {
       const content = await ctx.getFile(f);
       if (content && scanForMissingAlt(content)) offendingFiles.push(f);
     }
 
-    for (const f of htmlFiles.slice(0, 20)) {
+    for (const f of htmlFiles.slice(0, 25)) {
       const content = await ctx.getFile(f);
       if (content && scanForMissingAlt(content)) offendingFiles.push(f);
     }
@@ -54,6 +84,7 @@ export async function checkQuality(ctx: RepoContext): Promise<{
         id: 'quality.imgAlt',
         category: 'quality',
         severity: 'medium',
+        confidence: 'medium',
         title: `Images missing alt text (${offendingFiles.length} file${offendingFiles.length > 1 ? 's' : ''})`,
         description:
           'Images without alt text are invisible to screen readers and hurt accessibility.',
@@ -71,11 +102,7 @@ export async function checkQuality(ctx: RepoContext): Promise<{
   // ---------------------------------------------------------------------------
   {
     const lockfiles = [
-      'package-lock.json',
-      'yarn.lock',
-      'pnpm-lock.yaml',
-      'bun.lockb',
-      'bun.lock',
+      'package-lock.json', 'yarn.lock', 'pnpm-lock.yaml', 'bun.lockb', 'bun.lock',
     ].filter((name) => ctx.fileSet.has(name));
 
     if (lockfiles.length > 1) {
@@ -87,7 +114,7 @@ export async function checkQuality(ctx: RepoContext): Promise<{
         description:
           'Different developers may use different package managers. Inconsistent installs.',
         fix:
-          'Pick one package manager and delete the others. Add the others to .gitignore.',
+          'Pick one package manager and delete the others. Add the others to .Gitignore.',
         affectedFiles: lockfiles,
       });
     } else {
@@ -96,16 +123,17 @@ export async function checkQuality(ctx: RepoContext): Promise<{
   }
 
   // ---------------------------------------------------------------------------
-  // 3. No Node version pin (JS/TS only)
+  // 3. No Node version pin
   // ---------------------------------------------------------------------------
   if (isJS) {
     const pkg = await ctx.getFile('package.json');
     if (pkg) {
       const hasNvmrc = ctx.fileSet.has('.nvmrc');
       const hasNodeVersion = ctx.fileSet.has('.node-version');
+      const hasToolVersions = ctx.fileSet.has('.tool-versions');
       const pkgHasEngines = /"engines"\s*:/.test(pkg);
 
-      if (!hasNvmrc && !hasNodeVersion && !pkgHasEngines) {
+      if (!hasNvmrc && !hasNodeVersion && !hasToolVersions && !pkgHasEngines) {
         issues.push({
           id: 'quality.nodeVersion',
           category: 'quality',
@@ -127,113 +155,49 @@ export async function checkQuality(ctx: RepoContext): Promise<{
   }
 
   // ---------------------------------------------------------------------------
-  // 4. Unused dependencies (JS/TS only)
+  // 4. Unused dependencies — DISABLED
+  //
+  // High false-positive rate without lockfile analysis. Any heuristic flags
+  // leGit deps used via CLI, config plugins, transitively, or as peers.
+  // A wrong call here ("husky is unused") destroys credibility. Skip
+  // entirely; revisit post-launch with proper AST-based resolution.
   // ---------------------------------------------------------------------------
-  if (isJS) {
-    const pkg = await ctx.getFile('package.json');
-    if (pkg) {
-      try {
-        const data = JSON.parse(pkg);
-        const deps = Object.keys({
-          ...(data.dependencies ?? {}),
-          ...(data.devDependencies ?? {}),
-        });
-
-        const alwaysUsed = new Set([
-          'react', 'react-dom', 'next', 'typescript', 'eslint', 'prettier',
-          'tailwindcss', '@tailwindcss/postcss', 'autoprefixer', 'postcss',
-          'eslint-config-next', '@types/node', '@types/react', '@types/react-dom',
-          'tw-animate-css', 'shadcn', 'clsx', 'class-variance-authority',
-          'tailwind-merge', 'lucide-react', 'framer-motion', 'next-themes', 'zod',
-        ]);
-
-        const configOnly = [
-          '@tailwindcss/', 'eslint-', 'prettier-', '@typescript-eslint/',
-          'postcss-', 'autoprefixer',
-        ];
-
-        const sampleContent: string[] = [];
-        for (const f of sourceFiles.slice(0, 40)) {
-          const c = await ctx.getFile(f);
-          if (c) sampleContent.push(c);
-        }
-        const allSource = sampleContent.join('\n');
-
-        const unused: string[] = [];
-        for (const dep of deps) {
-          if (alwaysUsed.has(dep)) continue;
-          if (/^@types\//.test(dep)) continue;
-          if (configOnly.some((prefix) => dep.startsWith(prefix))) continue;
-
-          const importRe = new RegExp(
-            [
-              // Named imports: import x from 'pkg' or import { x } from 'pkg'
-              `from\\s+['"]${escapeRegex(dep)}(\\/[^'"]*)?['"]`,
-              // Bare imports: import 'pkg' or import 'pkg/subpath' (e.g., CSS)
-              `import\\s+['"]${escapeRegex(dep)}(\\/[^'"]*)?['"]`,
-              // Requires: require('pkg')
-              `require\\(['"]${escapeRegex(dep)}(\\/[^'"]*)?['"]\\)`,
-              // CSS @import
-              `@import\\s+['"]${escapeRegex(dep)}`,
-            ].join('|'),
-            'i'
-          );
-
-          if (!importRe.test(allSource)) {
-            unused.push(dep);
-          }
-        }
-
-        if (unused.length >= 3 && unused.length <= 10) {
-          issues.push({
-            id: 'quality.unusedDeps',
-            category: 'quality',
-            severity: 'low',
-            title: `Possibly unused dependencies (${unused.length})`,
-            description: `These packages are in package.json but we couldn't find them imported in the sampled source files: ${unused.slice(0, 8).join(', ')}.`,
-            fix:
-              "Double-check each one. Some packages are used via config files or CSS imports that we can't detect.",
-            affectedFiles: ['package.json'],
-          });
-        } else {
-          passed.push('quality.unusedDeps');
-        }
-      } catch {
-        // malformed
-      }
-    } else {
-      passed.push('quality.unusedDeps');
-    }
-  } else {
-    passed.push('quality.unusedDeps');
-  }
+  passed.push('quality.unusedDeps');
 
   // ---------------------------------------------------------------------------
-  // 5. Massive files — excluding docs
+  // 5. Large source files (language-aware threshold)
   // ---------------------------------------------------------------------------
   {
+    const threshold = DYNAMIC_LANGUAGES.has(language.primary)
+      ? MAX_FILE_LINES.dynamic
+      : MAX_FILE_LINES.static;
+
     const offenders: { file: string; lines: number }[] = [];
 
-    for (const f of sourceFiles.slice(0, 60)) {
-      // Only count actual code files
-      if (/\.(html?|md|mdx|rst|txt|css|scss|json)$/i.test(f)) continue;
-      // Skip doc directories
-      if (f.includes('doc/') || f.includes('docs/')) continue;
+    for (const f of sourceFiles.slice(0, 100)) {
+      if (isProseFile(f)) continue;
+      if (isLeGitimatelyLarge(f)) continue;
 
       const content = await ctx.getFile(f);
       if (!content) continue;
+
       const lines = content.split('\n').length;
-      if (lines > 5000) offenders.push({ file: f, lines });
+      if (lines > threshold) offenders.push({ file: f, lines });
     }
 
     if (offenders.length > 0) {
+      const hasMassive = offenders.some((o) => o.lines > MAX_MASSIVE_LINES);
       issues.push({
         id: 'quality.massiveFiles',
         category: 'quality',
-        severity: 'low',
-        title: `Very large source file${offenders.length > 1 ? 's' : ''}`,
-        description: `These files exceed 5,000 lines: ${offenders.map((o) => `${o.file} (${o.lines})`).join(', ')}.`,
-        fix: 'Split large files into smaller modules by responsibility.',
+        severity: hasMassive ? 'medium' : 'low',
+        confidence: 'medium',
+        title: `Very large source file${offenders.length > 1 ? 's' : ''} (${offenders.length})`,
+        description: `These files exceed ${threshold.toLocaleString()} lines: ${offenders
+          .slice(0, 5)
+          .map((o) => `${o.file} (${o.lines})`)
+          .join(', ')}${offenders.length > 5 ? ` and ${offenders.length - 5} more` : ''}.`,
+        fix: 'Split large files into smaller modules by responsibility. Route handlers, business logic, and data fetching are usually separable.',
         affectedFiles: offenders.slice(0, 5).map((o) => o.file),
       });
     } else {
@@ -242,7 +206,7 @@ export async function checkQuality(ctx: RepoContext): Promise<{
   }
 
   // ---------------------------------------------------------------------------
-  // 6. TODO/FIXME density (excluding test files)
+  // 6. TODO/FIXME density (all comment syntaxes)
   // ---------------------------------------------------------------------------
   {
     const offenders: { file: string; count: number }[] = [];
@@ -250,7 +214,11 @@ export async function checkQuality(ctx: RepoContext): Promise<{
     for (const f of sourceFiles.slice(0, 60)) {
       const content = await ctx.getFile(f);
       if (!content) continue;
-      const count = (content.match(/\/\/\s*(TODO|FIXME|XXX|HACK)/gi) || []).length;
+
+      const matches = content.match(
+        /(?:\/\/|#|--|<!--|\/\*)\s*(?:TODO|FIXME|XXX|HACK)\b/gi
+      );
+      const count = matches ? matches.length : 0;
       if (count >= 3) offenders.push({ file: f, count });
     }
 
@@ -273,6 +241,40 @@ export async function checkQuality(ctx: RepoContext): Promise<{
   return { issues, passed };
 }
 
-function escapeRegex(s: string): string {
-  return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+// =============================================================================
+// Helpers
+// =============================================================================
+
+function isBuildPath(path: string): boolean {
+  return (
+    path.includes('node_modules') ||
+    path.includes('.next') ||
+    path.includes('dist/') ||
+    path.includes('build/') ||
+    path.includes('out/') ||
+    path.includes('venv/') ||
+    path.includes('.venv/') ||
+    path.includes('__pycache__/') ||
+    path.includes('coverage/') ||
+    path.includes('target/')
+  );
+}
+
+function isTestFile(path: string): boolean {
+  return /_test\.go$|_test\.py$|^test_.*\.py$|\.spec\.|\.test\./i.test(path);
+}
+
+function isProseFile(path: string): boolean {
+  return /\.(html?|md|mdx|rst|txt|css|scss|sass|less|json|yaml|yml|toml)$/i.test(
+    path
+  );
+}
+
+function isLeGitimatelyLarge(path: string): boolean {
+  if (FRAMEWORK_PATH_FRAGMENTS.some((frag) => path.includes(frag))) return true;
+
+  const basename = (path.split('/').pop() ?? '').toLowerCase();
+  if (LEGitIMATELY_LARGE_BASENAMES.has(basename)) return true;
+
+  return false;
 }

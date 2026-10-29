@@ -1,20 +1,94 @@
 'use client';
 import { useState } from 'react';
 import { IssueCard } from './IssueCard';
+import {
+  LegalIcon,
+  SeoIcon,
+  ErrorsIcon,
+  HygieneIcon,
+  SignaturesIcon,
+  QualityIcon,
+  AnalyticsIcon,
+  SecurityIcon,
+} from './categoryIcons';
+import type { Issue } from '@/lib/types';
 
-const META: Record<string, { title: string; emoji: string; bg: string }> = {
-  legal:      { title: 'Legal & Trust',        emoji: '⚖️', bg: '#8b5cf6' },
-  seo:        { title: 'SEO & Meta',           emoji: '🔍', bg: '#38bdf8' },
-  errors:     { title: 'Errors & Edge States', emoji: '🐛', bg: '#fbbf24' },
-  hygiene:    { title: 'Code Hygiene',         emoji: '🧼', bg: '#34d399' },
-  signatures: { title: 'vibecoded Signs',      emoji: '✨', bg: '#8b5cf6' },
-  quality:    { title: 'Code Quality',         emoji: '🎯', bg: '#f472b6' },  // ← new
-  analytics:  { title: 'Analytics',            emoji: '📊', bg: '#38bdf8' },
+interface Meta {
+  title: string;
+  icon: React.ComponentType<{ size?: number }>;
+  bg: string;
+  fg: string;
+}
+
+const META: Record<string, Meta> = {
+  legal: {
+    title: 'Legal & Trust',
+    icon: LegalIcon,
+    bg: '#8b5cf6',
+    fg: '#ffffff',
+  },
+  seo: {
+    title: 'SEO & Meta',
+    icon: SeoIcon,
+    bg: '#38bdf8',
+    fg: '#0a0a0a',
+  },
+  errors: {
+    title: 'Errors & Edge States',
+    icon: ErrorsIcon,
+    bg: '#fbbf24',
+    fg: '#0a0a0a',
+  },
+  hygiene: {
+    title: 'Code Hygiene',
+    icon: HygieneIcon,
+    bg: '#34d399',
+    fg: '#0a0a0a',
+  },
+  signatures: {
+    title: 'vibecoded Signs',
+    icon: SignaturesIcon,
+    bg: '#8b5cf6',
+    fg: '#ffffff',
+  },
+  quality: {
+    title: 'Code Quality',
+    icon: QualityIcon,
+    bg: '#f472b6',
+    fg: '#0a0a0a',
+  },
+  analytics: {
+    title: 'Analytics',
+    icon: AnalyticsIcon,
+    bg: '#38bdf8',
+    fg: '#0a0a0a',
+  },
+  security: {
+    title: 'Security',
+    icon: SecurityIcon,
+    bg: '#ef4444',
+    fg: '#ffffff',
+  },
 };
 
-export function CategorySection({ category, issues }: { category: string; issues: any[] }) {
+export function CategorySection({
+  category,
+  issues,
+}: {
+  category: string;
+  issues: Issue[];
+}) {
   const [open, setOpen] = useState(true);
-  const meta = META[category] ?? { title: category, emoji: '📋', bg: '#8b5cf6' };
+  const meta =
+    META[category] ??
+    ({
+      title: category,
+      icon: SignaturesIcon,
+      bg: '#8b5cf6',
+      fg: '#ffffff',
+    } as Meta);
+
+  const Icon = meta.icon;
 
   return (
     <section className="bd bs-lg overflow-hidden rounded-3xl bg-card">
@@ -24,10 +98,16 @@ export function CategorySection({ category, issues }: { category: string; issues
       >
         <div className="flex items-center gap-4">
           <div
-            className="flex items-center justify-center rounded-xl border-2 text-lg"
-            style={{ width: 44, height: 44, background: meta.bg, borderColor: '#0a0a0a' }}
+            className="flex items-center justify-center rounded-xl border-2"
+            style={{
+              width: 44,
+              height: 44,
+              background: meta.bg,
+              color: meta.fg,
+              borderColor: '#0a0a0a',
+            }}
           >
-            {meta.emoji}
+            <Icon size={20} />
           </div>
           <div>
             <h2 className="headline text-2xl">{meta.title}</h2>
@@ -37,8 +117,14 @@ export function CategorySection({ category, issues }: { category: string; issues
           </div>
         </div>
         <svg
-          width="20" height="20" viewBox="0 0 24 24" fill="none"
-          stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
           className={`shrink-0 transition-transform ${open ? 'rotate-180' : ''}`}
         >
           <polyline points="6 9 12 15 18 9" />
@@ -49,7 +135,9 @@ export function CategorySection({ category, issues }: { category: string; issues
           className="space-y-4 border-t-2 px-6 py-6"
           style={{ borderColor: '#0a0a0a' }}
         >
-          {issues.map((i) => <IssueCard key={i.id} issue={i} />)}
+          {issues.map((i) => (
+            <IssueCard key={i.id} issue={i} />
+          ))}
         </div>
       )}
     </section>

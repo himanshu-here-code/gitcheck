@@ -86,7 +86,7 @@ const KNOWN_LIBRARIES = new Set([
   // Auth
   'next-auth', 'authjs', 'passport', 'passportjs', 'clerk',
   // Documentation frameworks
-  'docsify', 'mkdocs', 'sphinx', 'gitbook', 'readthedocs',
+  'docsify', 'mkdocs', 'sphinx', 'Gitbook', 'readthedocs',
 ]);
 
 /**
