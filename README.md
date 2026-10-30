@@ -240,29 +240,8 @@ Issues and PRs welcome. A few guidelines:
 - **Avoid false positives.** A check that flags something that isn't a problem
   is worse than no check at all. Add an exception rather than a shaky match.
 - **Match the voice.** The UI copy is direct and human. New issues should
-  sound like a friend telling you what's wrong, not a linter barking at you.
-
+  sound like a friend telling you what's wrong, not a linter barking at 
 ---
-
-## License
-
-## License
-
-[AGPL-3.0](LICENSE) — you're free to fork, self-host, and modify GitCheck.
-
-The one rule: if you run a modified version as a public service (a website,
-an API, a SaaS — anything other people use over a network), you must publish
-your modified source code under the same license.
-
-That keeps GitCheck open for learning, tinkering, and contribution, while
-preventing anyone from repackaging it and selling it as their own.
-
-Want to use GitCheck commercially without the AGPL obligation? Reach out on
-[GitHub](https://Github.com/himanshu-here-code) — happy to talk about a
-commercial license.
-
----
-
 ## Credits
 
 Built by [Himanshu](https://Github.com/himanshu-here-code) because vibecoded
